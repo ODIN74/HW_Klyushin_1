@@ -1,6 +1,6 @@
 ﻿namespace HW_Klyushin_1
 {
-    partial class Form1
+    partial class Form
     {
         /// <summary>
         /// Обязательная переменная конструктора.

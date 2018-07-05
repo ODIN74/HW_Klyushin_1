@@ -18,7 +18,6 @@ namespace HW_Klyushin_1
             form.Show();
             Game.Draw();
             Application.Run(form);
-
         }
     }
 }

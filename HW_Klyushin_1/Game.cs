@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HW_Klyushin_1
 {
@@ -20,6 +16,8 @@ namespace HW_Klyushin_1
         static Game()
         {
         }
+
+        //метод инициализации буфкра для вывода на форму
         public static void Init(System.Windows.Forms.Form form)
         {
             // Графическое устройство для вывода графики            
@@ -41,51 +39,59 @@ namespace HW_Klyushin_1
             timer.Tick += Timer_Tick;
 
         }
+
+        //метод создания отображаемых объектов
         public static void Load()
         {
+            //Инициализируем генератор случайных чисел
             Random rnd = new Random();
+
+            //Создаем массив движущихся объектов
             objs = new BaseObject[60];
             for (int i = 0; i < objs.Length * 2 / 3; i++)
             {
                 if(i < objs.Length * 2 / 3 - 4)
                 {
+                    //добавление объектов класса Star
                     objs[i] = new Star(new Point(rnd.Next(0, 800), rnd.Next(0, 600)), new Point(-rnd.Next(1, i + 1), 0), new Size(5, 5));
                 }
                 else
                 {
+                    //добавление объектов класса Planet
                     if (Math.Abs(i- objs.Length * 2 / 3) == 4)
-                    objs[i] = new Planet(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), new Size(5, 5), Planet.PlanetEnum.Earth);
+                    objs[i] = new Earth(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), Planet.PlanetsEnum.Earth);
                     if (Math.Abs(i - objs.Length * 2 / 3) == 3)
-                        objs[i] = new Planet(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), new Size(5, 5), Planet.PlanetEnum.Anoa);
+                        objs[i] = new Anoa(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), Planet.PlanetsEnum.Anoa);
                     if (Math.Abs(i - objs.Length * 2 / 3) == 2)
-                        objs[i] = new Planet(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), new Size(5, 5), Planet.PlanetEnum.Saturn);
+                        objs[i] = new Saturn(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), Planet.PlanetsEnum.Saturn);
                     if (Math.Abs(i - objs.Length * 2 / 3) == 1)
-                        objs[i] = new Planet(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), new Size(5, 5), Planet.PlanetEnum.Venus);
+                        objs[i] = new Venus(new Point(rnd.Next(0, 800), rnd.Next(100, 500)), new Point(-rnd.Next(1, 10), rnd.Next(1, 10)), Planet.PlanetsEnum.Venus);
                 }
             }
+
+            //добавление объектов класса Asteroid
             for (int i = objs.Length * 2 / 3; i < objs.Length; i++)
                 objs[i] = new Asteroid(new Point(rnd.Next(0, 800), rnd.Next(0, 600)), new Point(-rnd.Next(0,i/3), -rnd.Next(0, i / 3)), new Size(10, 10)); 
 
         }
+
+        //метод обновления состояния объектов
         public static void Update()
         {
             foreach (BaseObject obj in objs)
                 obj.Update();
         }
+
+        //метод отрисовки объектов в буфере с последующим выводом на форму
         public static void Draw()
         {
-            // Проверяем вывод графики
-            //Buffer.Graphics.Clear(Color.Black);
-            //Buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            //Buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
-            //Buffer.Render();
-
             Buffer.Graphics.Clear(Color.Black);
             foreach (BaseObject obj in objs)
                 obj.Draw();
             Buffer.Render();
         }
 
+        //обработчик события для таймера
         private static void Timer_Tick(object sender, EventArgs e)
         {
             Draw();

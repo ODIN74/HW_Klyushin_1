@@ -1,31 +1,24 @@
-﻿using System;
+﻿
 using System.Drawing;
 
 namespace HW_Klyushin_1
 {
     class Planet:BaseObject
     {
-        public enum PlanetEnum { Earth, Venus, Saturn, Anoa}
+        public enum PlanetsEnum  
+        {
+            Earth,
+            Venus,
+            Saturn,
+            Anoa
+        }
+
         protected Image image;
 
-        public Planet(Point pos, Point dir, Size size, PlanetEnum planet):base(pos, dir, size)
+        public Planet(Point pos, Point dir, PlanetsEnum planet):base(pos,dir)
         {
-            switch (planet)
-            {
-                case PlanetEnum.Earth:
-                    image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\planetEarth.png");
-                    break;
-                case PlanetEnum.Venus:
-                    image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\planetVenus.png");
-                    break;
-                case PlanetEnum.Saturn:
-                    image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\planetSaturn.png");
-                    break;
-                case PlanetEnum.Anoa:
-                    image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\planetAnoa.png");
-                    break;
-            }
         }
+
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawImage(image, Pos);

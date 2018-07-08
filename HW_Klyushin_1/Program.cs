@@ -11,12 +11,12 @@ namespace HW_Klyushin_1
         [STAThread]
         static void Main()
         {
-            Form form = new Form();
+            Form form = new SplashScreen();
             form.Width = 800;
             form.Height = 600;
-            Game.Init(form);
+            //SplashScreen.Init();
             form.Show();
-            Game.Draw();
+            //Game.Draw();
             Application.Run(form);
         }
     }

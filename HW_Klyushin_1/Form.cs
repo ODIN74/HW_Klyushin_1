@@ -16,5 +16,15 @@ namespace HW_Klyushin_1
         {
             InitializeComponent();
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

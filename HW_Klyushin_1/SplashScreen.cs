@@ -10,7 +10,7 @@ namespace HW_Klyushin_1
     class SplashScreen : Form
     {
         //Create a Bitmpap Object.
-        Bitmap animatedImage = new Bitmap(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\Space2.gif");
+        Bitmap animatedImage = new Bitmap(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\Space2.gif");
         bool currentlyAnimating = false;
         private static  BufferedGraphicsContext context = BufferedGraphicsManager.Current;
         public static BufferedGraphics Buffer;
@@ -22,6 +22,7 @@ namespace HW_Klyushin_1
         public static int Height { get; set; }
 
         private PointF[] stretchImage;
+        private PointF showText;
 
         //This method begins the animation.
         public void AnimateImage()
@@ -37,6 +38,8 @@ namespace HW_Klyushin_1
             DoubleBuffered = true;
 
             stretchImage = new PointF[] {new PointF(0.0f,0.0f), new PointF(0.0f,Height), new PointF(Width, 0.0f) };
+
+            showText = new PointF(Width - 100, Height - 30);
 
 
             if (!currentlyAnimating)
@@ -66,8 +69,21 @@ namespace HW_Klyushin_1
 
             //Draw the next frame in the animation.
             e.Graphics.DrawImage(this.animatedImage, this.stretchImage);
+            e.Graphics.DrawString("Клюшин Антон", new Font(FontFamily.GenericSansSerif, 10,FontStyle.Regular), new SolidBrush(Color.White), Width - 100, Height - 30);
             Buffer.Dispose();
         }
 
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SplashScreen
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.Name = "SplashScreen";
+            this.ResumeLayout(false);
+
+        }
     }
 }

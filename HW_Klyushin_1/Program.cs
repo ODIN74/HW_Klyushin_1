@@ -12,9 +12,10 @@ namespace HW_Klyushin_1
         static void Main()
         {
             Form form = new SplashScreen();
+            Form gameForm = new Form();
             form.Width = 800;
             form.Height = 600;
-            //SplashScreen.Init();
+            Game.Init(gameForm);
             form.Show();
             //Game.Draw();
             Application.Run(form);

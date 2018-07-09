@@ -9,7 +9,7 @@ namespace HW_Klyushin_1
             : base(pos, dir, planet)
         {
             if (planet == PlanetsEnum.Saturn)
-                this.image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\planetSaturn.png");
+                this.image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\planetSaturn.png");
         }
     }
 }

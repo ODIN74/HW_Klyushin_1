@@ -1,9 +1,9 @@
-﻿
+﻿using System;
 using System.Drawing;
 
 namespace HW_Klyushin_1
 {
-    class BaseObject
+    abstract class BaseObject : ICollision
     {
         protected Point Pos;
         protected Point Dir;
@@ -13,30 +13,24 @@ namespace HW_Klyushin_1
         {
             Pos = pos;
             Dir = dir;
-            this.Size = Size.Empty;
+            Size = Size.Empty;
         }
 
-        public BaseObject(Point pos, Point dir, Size size)
+        public BaseObject(Point pos, Point dir, Size size) : this(pos, dir)
         {
-            Pos = pos;
-            Dir = dir;
             Size = size;
         }
 
         public virtual void Draw()
         {
-            Game.Buffer.Graphics.DrawEllipse(Pens.White, Pos.X, Pos.Y, Size.Width, Size.Height);
+            Game.GameBuffer.Graphics.DrawEllipse(Pens.White, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
 
-        public virtual void Update()
-        {
-            Pos.X = Pos.X + Dir.X;
-            Pos.Y = Pos.Y + Dir.Y;
-            if (Pos.X < 0) Dir.X = -Dir.X;
-            if (Pos.X > Game.Width) Dir.X = -Dir.X;
-            if (Pos.Y < 0) Dir.Y = -Dir.Y;
-            if (Pos.Y > Game.Height) Dir.Y = -Dir.Y;
-        }
+        public bool Collision(ICollision o) => o.Rect.IntersectsWith(this.Rect);
+
+        public Rectangle Rect => new Rectangle(this.Pos,this.Size);
+
+        public abstract void Update();
 
     }
 }

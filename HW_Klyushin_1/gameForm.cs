@@ -10,21 +10,16 @@ using System.Windows.Forms;
 
 namespace HW_Klyushin_1
 {
-    public partial class Form : System.Windows.Forms.Form
+    public partial class gameForm : System.Windows.Forms.Form
     {
-        public Form()
+        public gameForm()
         {
             InitializeComponent();
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private void gameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Close();
-        }
-
-        private void btnNewGame_Click(object sender, EventArgs e)
-        {
-
+            Game.Stop();
         }
     }
 }

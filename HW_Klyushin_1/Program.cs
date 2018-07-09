@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace HW_Klyushin_1
 {
@@ -11,13 +12,9 @@ namespace HW_Klyushin_1
         [STAThread]
         static void Main()
         {
-            Form form = new SplashScreen();
-            Form gameForm = new Form();
-            form.Width = 800;
-            form.Height = 600;
-            Game.Init(gameForm);
+            SplashScreen form = new SplashScreen();
+            form.ClientSize = new Size(800, 600);
             form.Show();
-            //Game.Draw();
             Application.Run(form);
         }
     }

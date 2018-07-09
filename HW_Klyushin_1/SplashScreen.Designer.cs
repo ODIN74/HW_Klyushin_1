@@ -1,16 +1,16 @@
 ﻿namespace HW_Klyushin_1
 {
-    partial class Form
+    partial class SplashScreen
     {
         /// <summary>
-        /// Обязательная переменная конструктора.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Освободить все используемые ресурсы.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -35,9 +35,9 @@
             // 
             // btnNewGame
             // 
-            this.btnNewGame.Location = new System.Drawing.Point(30, 46);
+            this.btnNewGame.Location = new System.Drawing.Point(24, 24);
             this.btnNewGame.Name = "btnNewGame";
-            this.btnNewGame.Size = new System.Drawing.Size(106, 23);
+            this.btnNewGame.Size = new System.Drawing.Size(94, 23);
             this.btnNewGame.TabIndex = 0;
             this.btnNewGame.Text = "Новая игра";
             this.btnNewGame.UseVisualStyleBackColor = true;
@@ -45,33 +45,34 @@
             // 
             // btnRecords
             // 
-            this.btnRecords.Location = new System.Drawing.Point(30, 91);
+            this.btnRecords.Location = new System.Drawing.Point(24, 65);
             this.btnRecords.Name = "btnRecords";
-            this.btnRecords.Size = new System.Drawing.Size(106, 23);
-            this.btnRecords.TabIndex = 0;
+            this.btnRecords.Size = new System.Drawing.Size(94, 23);
+            this.btnRecords.TabIndex = 1;
             this.btnRecords.Text = "Рекорды";
             this.btnRecords.UseVisualStyleBackColor = true;
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(30, 137);
+            this.btnExit.Location = new System.Drawing.Point(24, 108);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(106, 23);
-            this.btnExit.TabIndex = 0;
+            this.btnExit.Size = new System.Drawing.Size(94, 23);
+            this.btnExit.TabIndex = 1;
             this.btnExit.Text = "Выход";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // Form
+            // SplashScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(1084, 450);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRecords);
             this.Controls.Add(this.btnNewGame);
-            this.Name = "Form";
-            this.Text = "My Game";
+            this.Name = "SplashScreen";
+            this.Text = "SplashScreen";
+            this.Load += new System.EventHandler(this.SplashScreen_Load);
             this.ResumeLayout(false);
 
         }
@@ -83,4 +84,3 @@
         private System.Windows.Forms.Button btnExit;
     }
 }
-

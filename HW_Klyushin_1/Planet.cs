@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace HW_Klyushin_1
 {
-    class Planet:BaseObject
+    class Planet : BaseObject
     {
         public enum PlanetsEnum  
         {
@@ -21,7 +21,7 @@ namespace HW_Klyushin_1
 
         public override void Draw()
         {
-            Game.Buffer.Graphics.DrawImage(image, Pos);
+            Game.GameBuffer.Graphics.DrawImage(image, Pos);
         }
         public override void Update()
         {

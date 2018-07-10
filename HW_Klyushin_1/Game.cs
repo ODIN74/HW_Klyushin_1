@@ -18,6 +18,8 @@ namespace HW_Klyushin_1
 
         public static Bullet bullet;
 
+        public static SpaceShip ship;
+
         private static BaseObject[] asteroids;
 
         private static Timer timer;
@@ -114,6 +116,8 @@ namespace HW_Klyushin_1
                     new Point(-rnd.Next(0, i), -rnd.Next(0, i)),
                     new Size(20, 20));
 
+            ship = new SpaceShip(new Point(0, Height / 2), new Point(0, 0), new Size(30, 30));
+
             bullet = new Bullet(new Point(0, rnd.Next(0, 600)), new Point(10, 0), new Size(10, 10));
         }
 
@@ -143,6 +147,7 @@ namespace HW_Klyushin_1
                 obj.Draw();
             foreach (Asteroid obj in asteroids)
                 obj.Draw();
+            ship.Draw();
             bullet.Draw();
             GameBuffer.Render();
         }

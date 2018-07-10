@@ -18,7 +18,7 @@ namespace HW_Klyushin_1
         }
 
         //Create a Bitmpap Object.
-        Bitmap animatedImage = new Bitmap(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\Space2.gif");
+        Bitmap animatedImage = new Bitmap(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
         bool currentlyAnimating = false;
         private static BufferedGraphicsContext context = BufferedGraphicsManager.Current;
         public static BufferedGraphics Buffer;

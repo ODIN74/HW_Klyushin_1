@@ -12,8 +12,7 @@ namespace HW_Klyushin_1
         [STAThread]
         static void Main()
         {
-            SplashScreen form = new SplashScreen();
-            form.ClientSize = new Size(800, 600);
+            SplashScreen form = new SplashScreen(new Size(800,600));
             form.Show();
             Application.Run(form);
         }

@@ -8,15 +8,26 @@ namespace HW_Klyushin_1
     {
         private int energy = 100;
 
-        private readonly Image image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\spaceship.png");
+        private int points = 0;
+
+        private readonly Image image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\spaceship.png");
 
         public SpaceShip(Point pos, Point dir, Size size) : base(pos, dir, size) { }
 
         public int Energy => this.energy;
 
+        public int Points => this.points;
+
+        public Point Position => this.Pos;
+
         public void ReductionOfEnergy(int n)
         {
             this.energy -= n;
+        }
+
+        public void HitTarget()
+        {
+            this.points++;
         }
 
         public override void Draw()
@@ -50,7 +61,9 @@ namespace HW_Klyushin_1
 
         public void Die()
         {
-
+            MessageDie?.Invoke();
         }
+
+        public static event Message MessageDie;
     }
 }

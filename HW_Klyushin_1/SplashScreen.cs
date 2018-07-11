@@ -12,13 +12,41 @@ namespace HW_Klyushin_1
 {
     public partial class SplashScreen : System.Windows.Forms.Form
     {
-        public SplashScreen()
+        public SplashScreen(Size size)
         {
+            try
+            {
+                if (size.Width > 1000 || size.Width < 0 || size.Height > 1000 || size.Height < 0) throw new ArgumentOutOfRangeException();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                if (size.Width > 1000)
+                    MessageBox.Show(
+                        "Слишком большая ширина окна",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                if (size.Height > 1000)
+                    MessageBox.Show(
+                        "Слишком большая высота окна",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                if (size.Width < 0 || size.Height < 0)
+                    MessageBox.Show(
+                        "Отрицательный размер окна",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                Environment.Exit(1);
+            }
             InitializeComponent();
+            this.ClientSize = size;
         }
 
         //Create a Bitmpap Object.
-        Bitmap animatedImage = new Bitmap(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
+        Bitmap animatedImage = new Bitmap(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
         bool currentlyAnimating = false;
         private static BufferedGraphicsContext context = BufferedGraphicsManager.Current;
         public static BufferedGraphics Buffer;
@@ -96,33 +124,7 @@ namespace HW_Klyushin_1
 
         private void SplashScreen_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (Width > 1000 || Width < 0 || Height > 1000 || Height < 0) throw new ArgumentOutOfRangeException();
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                if (Width > 1000)
-                    MessageBox.Show(
-                        "Слишком большая ширина окна",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                if (Height > 1000)
-                    MessageBox.Show(
-                        "Слишком большая высота окна",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                if (Width < 0 || Height < 0)
-                    MessageBox.Show(
-                        "Отрицательный размер окна",
-                        "Ошибка",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                Environment.Exit(1);
-            }
+ 
         }
     }
 }

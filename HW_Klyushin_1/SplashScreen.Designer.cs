@@ -66,7 +66,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 450);
+            this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRecords);
             this.Controls.Add(this.btnNewGame);

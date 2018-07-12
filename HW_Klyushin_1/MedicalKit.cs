@@ -7,7 +7,7 @@ namespace HW_Klyushin_1
 
     internal class MedicalKit : BaseObject
     {
-        protected readonly Image image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\medicalKit.png");
+        protected readonly Image image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\medicalKit1.png");
 
         public MedicalKit(Point pos, Point dir, Size size) : base(pos, dir, size) { }
 

@@ -20,6 +20,7 @@ namespace HW_Klyushin_1
         private void gameForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Game.Stop();
+            MyConsole.FreeConsole();
         }
     }
 }

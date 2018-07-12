@@ -14,6 +14,7 @@ namespace HW_Klyushin_1
     {
         public SplashScreen(Size size)
         {
+            //проверка размеров окна
             try
             {
                 if (size.Width > 1000 || size.Width < 0 || size.Height > 1000 || size.Height < 0) throw new ArgumentOutOfRangeException();
@@ -46,7 +47,7 @@ namespace HW_Klyushin_1
         }
 
         //Create a Bitmpap Object.
-        Bitmap animatedImage = new Bitmap(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
+        Bitmap animatedImage = new Bitmap(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
         bool currentlyAnimating = false;
         private static BufferedGraphicsContext context = BufferedGraphicsManager.Current;
         public static BufferedGraphics Buffer;
@@ -116,6 +117,7 @@ namespace HW_Klyushin_1
            this.Close();
         }
 
+        //открытие формы для игры
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             gameForm mainForm = new gameForm();
@@ -124,11 +126,6 @@ namespace HW_Klyushin_1
             mainForm.Show(this);
             currentlyAnimating = true;
             Game.Draw();
-        }
-
-        private void SplashScreen_Load(object sender, EventArgs e)
-        {
- 
         }
 
         private void SplashScreen_Activated(object sender, EventArgs e)

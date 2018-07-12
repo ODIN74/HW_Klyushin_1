@@ -46,7 +46,7 @@ namespace HW_Klyushin_1
         }
 
         //Create a Bitmpap Object.
-        Bitmap animatedImage = new Bitmap(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
+        Bitmap animatedImage = new Bitmap(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\Space1.gif");
         bool currentlyAnimating = false;
         private static BufferedGraphicsContext context = BufferedGraphicsManager.Current;
         public static BufferedGraphics Buffer;
@@ -95,17 +95,20 @@ namespace HW_Klyushin_1
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            //Begin the animation.
-            AnimateImage();
+            if (SplashScreen.ActiveForm == this)
+            {
+                //Begin the animation.
+                AnimateImage();
 
 
-            //Get the next frame ready for rendering.
-            ImageAnimator.UpdateFrames();
+                //Get the next frame ready for rendering.
+                ImageAnimator.UpdateFrames();
 
-            //Draw the next frame in the animation.
-            e.Graphics.DrawImage(this.animatedImage, this.stretchImage);
-            e.Graphics.DrawString("Клюшин Антон", new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular), new SolidBrush(Color.White), Width - 100, Height - 30);
-            Buffer.Dispose();
+                //Draw the next frame in the animation.
+                e.Graphics.DrawImage(this.animatedImage, this.stretchImage);
+                e.Graphics.DrawString("Клюшин Антон", new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular), new SolidBrush(Color.White), Width - 100, Height - 30);
+                Buffer.Dispose();
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -118,13 +121,19 @@ namespace HW_Klyushin_1
             gameForm mainForm = new gameForm();
             mainForm.ClientSize = new Size(this.ClientSize.Width,this.ClientSize.Height);
             Game.Init(mainForm);
-            mainForm.Show();
+            mainForm.Show(this);
+            currentlyAnimating = true;
             Game.Draw();
         }
 
         private void SplashScreen_Load(object sender, EventArgs e)
         {
  
+        }
+
+        private void SplashScreen_Activated(object sender, EventArgs e)
+        {
+            currentlyAnimating = false;
         }
     }
 }

@@ -72,6 +72,7 @@
             this.Controls.Add(this.btnNewGame);
             this.Name = "SplashScreen";
             this.Text = "SplashScreen";
+            this.Activated += new System.EventHandler(this.SplashScreen_Activated);
             this.Load += new System.EventHandler(this.SplashScreen_Load);
             this.ResumeLayout(false);
 

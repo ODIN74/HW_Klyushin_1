@@ -7,9 +7,11 @@ namespace HW_Klyushin_1
 
     internal class MedicalKit : BaseObject
     {
-        protected readonly Image image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\medicalKit.png");
+        protected readonly Image image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\medicalKit.png");
 
         public MedicalKit(Point pos, Point dir, Size size) : base(pos, dir, size) { }
+
+        public Point Position => this.Pos;
 
         public void Regenerate()
         {
@@ -19,14 +21,14 @@ namespace HW_Klyushin_1
             this.Dir.X = 10;
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            Game.GameBuffer.Graphics.DrawImage(this.image, this.Pos);
+             Game.GameBuffer.Graphics.DrawImage(this.image, this.Pos);
         }
 
         public override void Update()
         {
-            Pos.X = Pos.X + Dir.X;
+            Pos.X = Pos.X - Dir.X;
             if (this.Pos.X < -10) this.Dir.X = 0;
         }
     }

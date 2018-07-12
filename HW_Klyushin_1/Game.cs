@@ -20,9 +20,14 @@ namespace HW_Klyushin_1
 
         public static SpaceShip ship;
 
+        public static MedicalKit medicalKit;
+
         private static BaseObject[] asteroids;
 
         private static Timer timer;
+        private static Timer medicalTimer;
+
+        private static bool medicalFlag = false;
 
         //Инициализируем генератор случайных чисел
         private static Random rnd = new Random();
@@ -42,6 +47,9 @@ namespace HW_Klyushin_1
 
             timer = new Timer { Interval = 100 };
             timer.Start();
+
+            medicalTimer = new Timer { Interval = 10000 };
+            medicalTimer.Start();
             
             // Создаем объект (поверхность рисования) и связываем его с формой
             // Запоминаем размеры формы
@@ -55,10 +63,13 @@ namespace HW_Klyushin_1
 
             timer.Tick += Timer_Tick;
 
+            medicalTimer.Tick += MedicalTimer_Tick;
+
             SpaceShip.MessageDie += Finish;
 
             form.KeyDown += Form_KeyDown;
         }
+
 
         //метод создания отображаемых объектов
         public static void Load()
@@ -103,6 +114,8 @@ namespace HW_Klyushin_1
                     new Size(30, 30));
 
             ship = new SpaceShip(new Point(0, Height / 2), new Point(5, 5), new Size(30, 30));
+
+            medicalKit = new MedicalKit(new Point(Width, rnd.Next(10, Height - 10)), new Point(10,0), new Size(20, 20));
         }
 
         //метод обновления состояния объектов
@@ -110,6 +123,15 @@ namespace HW_Klyushin_1
         {
             foreach (BaseObject obj in objs) obj.Update();
             foreach (var bullet in bullets) bullet?.Update();
+            if (medicalFlag)
+                medicalKit.Update();
+            if (ship.Collision(medicalKit) || medicalKit.Position.X < 0)
+            {
+                medicalFlag = false;
+                medicalKit.Regenerate();
+                medicalTimer.Stop();
+                medicalTimer.Start();
+            }
             for (var i = 0; i < asteroids.Length; i++)
             {
                 if(asteroids[i] == null) continue;
@@ -143,6 +165,8 @@ namespace HW_Klyushin_1
             ship?.Draw();
             foreach (var bullet in bullets)
             bullet?.Draw();
+            if (medicalFlag)
+                medicalKit?.Draw();
             if (ship != null)
                 GameBuffer.Graphics.DrawString("Energy:" +" "+ ship.Energy + "  Points:" +" " + ship.Points,
                     SystemFonts.DefaultFont, Brushes.Red, 0, 0);
@@ -170,9 +194,15 @@ namespace HW_Klyushin_1
             Update();
         }
 
+        private static void MedicalTimer_Tick(object sender, EventArgs e)
+        {
+            medicalFlag = true;
+        }
+
         public static void Stop()
         {
             timer.Stop();
+            medicalTimer.Stop();
             GameBuffer.Dispose();
         }
 

@@ -10,7 +10,7 @@ namespace HW_Klyushin_1
 
         private int points = 0;
 
-        private readonly Image image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\spaceship.png");
+        private readonly Image image = Image.FromFile(@"D:\Anton\C Sharp\Level 2\lesson_1\HW_Klyushin_1\HW_Klyushin_1\HW_Klyushin_1\spaceship.png");
 
         public SpaceShip(Point pos, Point dir, Size size) : base(pos, dir, size) { }
 

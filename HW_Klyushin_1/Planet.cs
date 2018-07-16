@@ -3,9 +3,30 @@ using System.Drawing;
 
 namespace HW_Klyushin_1
 {
+    /// <summary>
+    /// Класс планет
+    /// </summary>
     class Planet : BaseObject
     {
-        public enum PlanetsEnum  
+        /// <summary>
+        /// Изображение планеты
+        /// </summary>
+        protected Image image;
+
+        /// <summary>
+        /// Конструктор планеты
+        /// </summary>
+        /// <param name="pos">Позиция</param>
+        /// <param name="dir">Смещение</param>
+        /// <param name="planet">Enum идентификатор планеты</param>
+        public Planet(Point pos, Point dir, PlanetsEnum planet) : base(pos,dir)
+        {
+        }
+
+        /// <summary>
+        /// Нумерованный список планет
+        /// </summary>
+        public enum PlanetsEnum
         {
             Earth,
             Venus,
@@ -13,16 +34,17 @@ namespace HW_Klyushin_1
             Anoa
         }
 
-        protected Image image;
-
-        public Planet(Point pos, Point dir, PlanetsEnum planet):base(pos,dir)
-        {
-        }
-
+        /// <summary>
+        /// Переопределение метода отрисовки планеты
+        /// </summary>
         public override void Draw()
         {
             Game.GameBuffer.Graphics.DrawImage(image, Pos);
         }
+
+        /// <summary>
+        /// Переопределение метода обновления состояния объекта
+        /// </summary>
         public override void Update()
         {
             Pos.X = Pos.X - Dir.X;

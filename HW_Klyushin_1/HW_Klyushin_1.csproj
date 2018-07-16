@@ -55,7 +55,6 @@
     <Compile Include="Earth.cs" />
     <Compile Include="ICollision.cs" />
     <Compile Include="MedicalKit.cs" />
-    <Compile Include="MyConsole.cs" />
     <Compile Include="Records.cs">
       <SubType>Form</SubType>
     </Compile>

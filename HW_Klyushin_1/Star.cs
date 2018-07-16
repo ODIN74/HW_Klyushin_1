@@ -1,19 +1,38 @@
-﻿
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace HW_Klyushin_1
 {
+    /// <summary>
+    /// Класс звезд
+    /// </summary>
     class Star : BaseObject
     {
-        protected readonly Image image = Image.FromFile(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\imageStar1.png");
+        /// <summary>
+        /// Изображение звезды
+        /// </summary>
+        protected readonly Image image = Image.FromFile(@".\imageStar1.png");
+
+        /// <summary>
+        /// Конструктор звезды
+        /// </summary>
+        /// <param name="pos">Позиция</param>
+        /// <param name="dir">Смещение</param>
+        /// <param name="size">Размер</param>
         public Star(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
-
         }
+
+        /// <summary>
+        /// Переопределение метода отрисовки объекта
+        /// </summary>
         public override void Draw()
         {
             Game.GameBuffer.Graphics.DrawImage(image,Pos);
         }
+
+        /// <summary>
+        /// Переопределение метода обновления состояния объекта
+        /// </summary>
         public override void Update()
         {
             Pos.X = Pos.X + Dir.X;

@@ -2,66 +2,117 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace HW_Klyushin_1
 {
-    using System.Runtime.CompilerServices;
-
-    static class Game
+    /// <summary>
+    /// Класс игрового процесса
+    /// </summary>
+    internal static class Game
     {
-        private static BufferedGraphicsContext context;
+
+        /// <summary>
+        /// Буфер для отрисовки игры
+        /// </summary>
         public static BufferedGraphics GameBuffer;
-        // Свойства
-        // Ширина и высота игрового поля
-        public static int Width { get; set; }
-        public static int Height { get; set; }
+        
 
-        //массив для отрисовки фона
-        public static BaseObject[] objs;
 
-        //массив снарядов
-        public static Bullet[] bullets = new Bullet[1];
+        /// <summary>
+        /// Массив объектов фона
+        /// </summary>
+        private static BaseObject[] objs;
 
-        //корабль
-        public static SpaceShip ship;
+        /// <summary>
+        /// Коллекция снарядов
+        /// </summary>
+        private static List<Bullet> bullets = new List<Bullet>();
 
-        //аптечка
-        public static MedicalKit medicalKit;
+        /// <summary>
+        /// Экемпляр космического корабля
+        /// </summary>
+        private static SpaceShip ship;
 
-        //массив астероидов
-        private static BaseObject[] asteroids;
+        /// <summary>
+        /// Экземпляр аптечки
+        /// </summary>
+        private static MedicalKit medicalKit;
 
-        //таймер для отрисовки
+        /// <summary>
+        /// Графический контекст буфера
+        /// </summary>
+        private static BufferedGraphicsContext context;
+        
+        /// <summary>
+        /// Коллекция астероидов
+        /// </summary>
+        private static List<BaseObject> asteroids = new List<BaseObject>();
+
+        /// <summary>
+        /// Исходное колличество астероидов в коллекции на момент начала игры
+        /// </summary>
+        private static int asteroidsCounter = 20;
+
+        /// <summary>
+        /// Таймер отрисовки объектов
+        /// </summary>
         private static Timer timer;
 
-        //таймер для аптечки
+        /// <summary>
+        /// Таймер для генерации аптечки
+        /// </summary>
         private static Timer medicalTimer;
 
-        //делегат для логирования в консоль и файл
-        public delegate void MessageToReciver();
-        public static MessageToReciver ActionMessage;
-
-        //стрим для логирования в файл
-        private static StreamWriter log = new StreamWriter(@"D:\Основы программирования\C Sharp\Level_2\HW_Klyushin_1\HW_Klyushin_1\bin\Debug\LastGame.log");
-
-        //вспомогательная переменная для организации лигики аптечки
+        /// <summary>
+        /// Флаг для генерации аптечки
+        /// </summary>
         private static bool medicalFlag = false;
 
-        //Инициализируем генератор случайных чисел
+        /// <summary>
+        /// Генератор случайных чисел
+        /// </summary>
         private static Random rnd = new Random();
 
-        static Game()
-        {
-        }
+        /// <summary>
+        /// Поток для записи лога
+        /// </summary>
+        private static StreamWriter log;
 
-        //метод инициализации буфкра для вывода на форму
+        /// <summary>
+        /// Делегат для записи лога в консоль и файл
+        /// </summary>
+        public delegate void MessageToReciver();
+
+        /// <summary>
+        /// Экземпляр делегата для записи лога в консоль и файл
+        /// </summary>
+        private static MessageToReciver ActionMessage;
+
+        /// <summary>
+        /// Ширина ирового поля
+        /// </summary>
+        public static int Width { get; set; }
+
+        /// <summary>
+        /// Высота игрвого поля
+        /// </summary>
+        public static int Height { get; set; }
+
+        /// <summary>
+        /// Метод инициализации игрового процесса
+        /// </summary>
+        /// <param name="form">Форма для отображения игрового процесса</param>
         public static void Init(gameForm form)
         {
             // Графическое устройство для вывода графики            
             Graphics g;
+
             // Предоставляет доступ к главному буферу графического контекста для текущего приложения
             context = BufferedGraphicsManager.Current;
             g = form.CreateGraphics();
+
+            log = new StreamWriter(@".\LastGame.log");
 
             timer = new Timer { Interval = 100 };
             timer.Start();
@@ -77,8 +128,10 @@ namespace HW_Klyushin_1
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             GameBuffer = context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
+            //генереруем игровые объекты
             Game.Load();
 
+            //подписка на события
             timer.Tick += Timer_Tick;
 
             medicalTimer.Tick += MedicalTimer_Tick;
@@ -89,7 +142,9 @@ namespace HW_Klyushin_1
         }
 
 
-        //метод создания отображаемых объектов
+        /// <summary>
+        /// Метод инициализации игровых объектов
+        /// </summary>
         public static void Load()
         {
             //Создаем массив движущихся объектов
@@ -124,12 +179,8 @@ namespace HW_Klyushin_1
             }
 
             //добавление объектов класса Asteroid
-            asteroids = new BaseObject[20];
-            for (int i = 0; i < asteroids.Length; i++)
-                asteroids[i] = new Asteroid(
-                    new Point(Width, rnd.Next(15, Height - 15)),
-                    new Point(-rnd.Next(5, 10), -rnd.Next(1, 5)),
-                    new Size(30, 30));
+
+            AsteroidsGenerate(asteroidsCounter);
 
             //добавляем корабль
             ship = new SpaceShip(new Point(0, Height / 2), new Point(5, 5), new Size(30, 30));
@@ -139,7 +190,9 @@ namespace HW_Klyushin_1
             ActionMessage = GameStart;
         }
 
-        //метод обновления состояния объектов
+        /// <summary>
+        /// Метод обновления состояния игровых объектов с проверкой игровых событий
+        /// </summary>
         public static void Update()
         {
             //обновление состояния фона
@@ -165,25 +218,28 @@ namespace HW_Klyushin_1
             }
 
             //проверка состояния астероидов
-            for (var i = 0; i < asteroids.Length; i++)
+            for (var i = 0; i < asteroids.Count; i++)
             {
                 if(asteroids[i] == null) continue;
                 asteroids[i].Update();
-                for (int j = 0; j < bullets.Length; j++)
+                for (int j = 0; j < bullets.Count; j++)
                 {
                     if (bullets[j] != null && bullets[j].Collision(asteroids[i]))
                     {
                         System.Media.SystemSounds.Hand.Play();
                         ActionMessage = AsteroidCollapse;
-                        (asteroids[i] as Asteroid).Regenerate();
+                        asteroids[i] = null;
                         bullets[j] = null;
                         ship.HitTarget();
+                        break;
                     }
+                    if (bullets[j]?.Position.X > Game.Width) bullets[j] = null;
                 }
+                if (asteroids[i] == null) continue;
                 if (!ship.Collision(asteroids[i])) continue;
                 ship?.ReductionOfEnergy(10);
                 ActionMessage = AsteroidCollision;
-                (asteroids[i] as Asteroid).Regenerate();
+                asteroids[i] = null;
                 System.Media.SystemSounds.Asterisk.Play();
 
                 //проверка состояния корабля
@@ -193,10 +249,19 @@ namespace HW_Klyushin_1
                     ActionMessage = GameEnd;
                 }
             }
+
+            //проверка сбиты ли все астероиды
+            if (ListEmpty(asteroids))
+            {
+                asteroidsCounter++;
+                AsteroidsGenerate(asteroidsCounter);
+            }
             ActionMessage?.Invoke();
         }
 
-        //метод отрисовки объектов в буфере с последующим выводом на форму
+        /// <summary>
+        /// Метод отрисовки игровых объектов
+        /// </summary>
         public static void Draw()
         {
             GameBuffer.Graphics.Clear(Color.Black);
@@ -222,41 +287,16 @@ namespace HW_Klyushin_1
 
             //вывод остатка энергии и количества очков
             if (ship != null)
-                GameBuffer.Graphics.DrawString("Energy:" +" "+ ship.Energy + "  Points:" +" " + ship.Points,
+                GameBuffer.Graphics.DrawString("Energy:" +" "+ ship.Energy + "  Points:" + " " + ship.Points,
                     SystemFonts.DefaultFont, Brushes.Red, 0, 0);
 
+            //отрисовка буфера
             GameBuffer.Render();
         }
 
-        //управление кораблем
-        private static void Form_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Space)
-            {
-                Array.Resize(ref bullets,bullets.Length+1);
-                bullets[bullets.Length -1] = new Bullet(new Point(ship.Position.X + 40, ship.Position.Y + 16), new Point(10, 0), new Size(10, 10));
-            }
-            if (e.KeyData == Keys.Up) ship.MoveUp();
-            if (e.KeyData == Keys.Down) ship.MoveDown();
-            if (e.KeyData == Keys.Left) ship.MoveLeft();
-            if (e.KeyData == Keys.Right) ship.MoveRight();
-        }
-
-        //обработчик события для таймера отрисовки
-        private static void Timer_Tick(object sender, EventArgs e)
-        {
-            Draw();
-            Update();
-            ActionMessage = null;
-        }
-
-        //обработчик события для таймера аптечки
-        private static void MedicalTimer_Tick(object sender, EventArgs e)
-        {
-            medicalFlag = true;
-        }
-
-        //метод для корректного выхода при закрытии формы
+        /// <summary>
+        /// Метод корректного закрытия игровой формы
+        /// </summary>
         public static void Stop()
         {
             timer.Stop();
@@ -265,7 +305,9 @@ namespace HW_Klyushin_1
             log.Close();
         }
 
-        //метод окончания игры
+        /// <summary>
+        /// Метод окончания игры
+        /// </summary>
         public static void Finish()
         {
             Draw();
@@ -275,7 +317,48 @@ namespace HW_Klyushin_1
             GameBuffer.Render();
         }
 
-        //метод записи сообщения о начале игры
+        /// <summary>
+        /// Обработка события нажатия клавишь
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Уведомление</param>
+        private static void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Space)
+            {             
+                bullets.Add(new Bullet(new Point(ship.Position.X + 40, ship.Position.Y + 16), new Point(10, 0), new Size(10, 10)));
+            }
+            if (e.KeyData == Keys.Up) ship.MoveUp();
+            if (e.KeyData == Keys.Down) ship.MoveDown();
+            if (e.KeyData == Keys.Left) ship.MoveLeft();
+            if (e.KeyData == Keys.Right) ship.MoveRight();
+        }
+
+        /// <summary>
+        /// Обработка игрового таймера
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Уведомление</param>
+        private static void Timer_Tick(object sender, EventArgs e)
+        {
+            Draw();
+            Update();
+            ActionMessage = null;
+        }
+
+        /// <summary>
+        /// Обработка таймера аптечки
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Уведомление</param>
+        private static void MedicalTimer_Tick(object sender, EventArgs e)
+        {
+            medicalFlag = true;
+        }
+
+        /// <summary>
+        /// Метод записи в лог сообщения о начале игры
+        /// </summary>
         private static void GameStart()
         {
             string text = $"{DateTime.Now} {"Игра началась"} Энергия {ship.Energy} Очков {ship.Points}";
@@ -283,7 +366,9 @@ namespace HW_Klyushin_1
             log.WriteLine(text);
         }
 
-        //метод записи сообщения об окончании игры
+        /// <summary>
+        /// Метод записи в лог сообщения об окончании игры
+        /// </summary>
         private static void GameEnd()
         {
             string text = $"{DateTime.Now} {"Игра окончена"} Энергия {ship.Energy} Очков {ship.Points}";
@@ -292,7 +377,9 @@ namespace HW_Klyushin_1
             log.Close();
         }
 
-        //метод записи сообщения о начале игры
+        /// <summary>
+        /// Метод записи в лог сообщения о сбитии астероида
+        /// </summary>
         private static void AsteroidCollapse()
         {
             string text = $"{DateTime.Now} {"Уничтожен астероид"} Энергия {ship.Energy} Очков {ship.Points}";
@@ -300,7 +387,9 @@ namespace HW_Klyushin_1
             log.WriteLine(text);
         }
 
-        //метод записи сообщения о взятии аптечки
+        /// <summary>
+        /// Метод записи в лог сообщения о взятии аптечки
+        /// </summary>
         private static void TakenMedicalKid()
         {
             string text = $"{DateTime.Now} {"Взята аптечка"} Энергия {ship.Energy} Очков {ship.Points}";
@@ -308,12 +397,42 @@ namespace HW_Klyushin_1
             log.WriteLine(text);
         }
 
-        //метод записи сообщения о столкновении с астероидом
+        /// <summary>
+        /// Метод записи в лог сообщения о столкновении с астероидом
+        /// </summary>
         private static void AsteroidCollision()
         {
             string text = $"{DateTime.Now} {"Столкновение с астероидом"} Энергия {ship.Energy} Очков {ship.Points}";
             Console.WriteLine(text);
             log.WriteLine(text);
+        }
+
+        /// <summary>
+        /// Метод генерации коллекции астероидов
+        /// </summary>
+        /// <param name="asteroidsCounter">Колличество астероидов</param>
+        private static void AsteroidsGenerate(int asteroidsCounter)
+        {
+            asteroids = new List<BaseObject>();
+            for (int i = 0; i < asteroidsCounter; i++)
+                asteroids.Add(new Asteroid(
+                    new Point(Width, rnd.Next(15, Height - 15)),
+                    new Point(-rnd.Next(5, 10), -rnd.Next(1, 5)),
+                    new Size(30, 30)));
+        }
+
+        /// <summary>
+        /// Метод проверки опустошения коллекции
+        /// </summary>
+        /// <param name="list">Проверяемая коллекция</param>
+        /// <returns>True or False</returns>
+        private static bool ListEmpty<T>(List<T> list)
+        {
+            foreach(var memberList in list)
+            {
+                if (memberList != null) return false;
+            }
+            return true;
         }
     }
 }
